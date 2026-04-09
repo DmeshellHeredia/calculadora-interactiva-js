@@ -1,0 +1,914 @@
+/* ================================================================
+   CALCULADORA INTERACTIVA — styles.css  v2.0
+   ================================================================ */
+
+/* ── 1. VARIABLES (Light theme) ─────────────────────────────── */
+:root {
+  --c-bg:            hsl(225, 35%, 92%);
+  --c-card:          hsl(0, 0%, 100%);
+  --c-pantalla:      hsl(220, 18%, 95%);
+  --c-pantalla2:     hsl(220, 22%, 91%);
+
+  --c-text:          hsl(222, 30%, 12%);
+  --c-text-muted:    hsl(222, 15%, 48%);
+  --c-text-dim:      hsl(222, 10%, 65%);
+
+  --c-border:        hsl(222, 18%, 88%);
+
+  /* Botones — dígitos */
+  --btn-dig-bg:      hsl(220, 18%, 96%);
+  --btn-dig-hover:   hsl(220, 18%, 89%);
+  --btn-dig-active:  hsl(220, 18%, 80%);
+  --btn-dig-text:    hsl(222, 30%, 12%);
+
+  /* Botones — funciones (C, %, ←) */
+  --btn-fn-bg:       hsl(220, 14%, 88%);
+  --btn-fn-hover:    hsl(220, 14%, 80%);
+  --btn-fn-text:     hsl(222, 25%, 22%);
+
+  /* Botones — operadores */
+  --btn-op-bg:       hsl(221, 78%, 56%);
+  --btn-op-hover:    hsl(221, 78%, 48%);
+  --btn-op-active:   hsl(221, 78%, 40%);
+  --btn-op-text:     hsl(0, 0%, 100%);
+
+  /* Botones — científicos */
+  --btn-sci-bg:      hsl(215, 55%, 92%);
+  --btn-sci-hover:   hsl(215, 55%, 84%);
+  --btn-sci-text:    hsl(215, 65%, 32%);
+
+  /* Botones — operador científico (xʸ) */
+  --btn-sci-op-bg:   hsl(221, 78%, 56%);
+  --btn-sci-op-text: hsl(0, 0%, 100%);
+
+  /* Botones — memoria */
+  --btn-mem-bg:      hsl(278, 38%, 92%);
+  --btn-mem-hover:   hsl(278, 38%, 83%);
+  --btn-mem-text:    hsl(278, 50%, 30%);
+
+  /* Selector de modo */
+  --modo-bg:         hsl(220, 18%, 90%);
+  --modo-activo-bg:  hsl(0, 0%, 100%);
+  --modo-activo-shadow: 0 1px 4px hsl(222 30% 20% / 0.10);
+
+  /* Error */
+  --c-error:         hsl(0, 70%, 50%);
+  --c-error-bg:      hsl(0, 70%, 97%);
+
+  /* Historial */
+  --hist-item-bg:    hsl(220, 18%, 97%);
+  --hist-item-hover: hsl(220, 18%, 91%);
+
+  /* Sombras */
+  --shadow-card:
+    0 2px 6px  hsl(222 30% 40% / 0.07),
+    0 8px 24px hsl(222 30% 40% / 0.08),
+    0 24px 56px hsl(222 30% 40% / 0.06);
+
+  /* Radios */
+  --r-card: 22px;
+  --r-btn:  14px;
+  --r-sm:   10px;
+
+  /* Alturas de botón */
+  --h-btn: clamp(48px, 7vh, 62px);
+  --h-btn-sci: clamp(34px, 5vh, 44px);
+  --h-btn-mem: clamp(28px, 4vh, 36px);
+
+  --gap: 10px;
+
+  /* Transición base */
+  --t: 0.15s ease;
+}
+
+/* ── Dark theme ──────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --c-bg:            hsl(224, 28%, 9%);
+  --c-card:          hsl(224, 26%, 14%);
+  --c-pantalla:      hsl(224, 30%, 9%);
+  --c-pantalla2:     hsl(224, 30%, 11%);
+
+  --c-text:          hsl(220, 14%, 91%);
+  --c-text-muted:    hsl(220, 10%, 56%);
+  --c-text-dim:      hsl(220, 8%, 40%);
+
+  --c-border:        hsl(224, 20%, 22%);
+
+  --btn-dig-bg:      hsl(224, 22%, 20%);
+  --btn-dig-hover:   hsl(224, 22%, 27%);
+  --btn-dig-active:  hsl(224, 22%, 16%);
+  --btn-dig-text:    hsl(220, 14%, 91%);
+
+  --btn-fn-bg:       hsl(224, 18%, 26%);
+  --btn-fn-hover:    hsl(224, 18%, 33%);
+  --btn-fn-text:     hsl(220, 14%, 85%);
+
+  --btn-op-bg:       hsl(221, 72%, 58%);
+  --btn-op-hover:    hsl(221, 72%, 52%);
+  --btn-op-active:   hsl(221, 72%, 44%);
+  --btn-op-text:     hsl(0, 0%, 100%);
+
+  --btn-sci-bg:      hsl(218, 32%, 20%);
+  --btn-sci-hover:   hsl(218, 32%, 27%);
+  --btn-sci-text:    hsl(218, 68%, 72%);
+
+  --btn-sci-op-bg:   hsl(221, 72%, 58%);
+  --btn-sci-op-text: hsl(0, 0%, 100%);
+
+  --btn-mem-bg:      hsl(275, 25%, 20%);
+  --btn-mem-hover:   hsl(275, 25%, 27%);
+  --btn-mem-text:    hsl(275, 55%, 75%);
+
+  --modo-bg:         hsl(224, 26%, 11%);
+  --modo-activo-bg:  hsl(224, 26%, 22%);
+  --modo-activo-shadow: 0 1px 4px hsl(0 0% 0% / 0.25);
+
+  --c-error:         hsl(0, 75%, 65%);
+  --c-error-bg:      hsl(0, 50%, 12%);
+
+  --hist-item-bg:    hsl(224, 24%, 18%);
+  --hist-item-hover: hsl(224, 24%, 24%);
+
+  --shadow-card:
+    0 2px 6px  hsl(0 0% 0% / 0.25),
+    0 8px 24px hsl(0 0% 0% / 0.30),
+    0 24px 56px hsl(0 0% 0% / 0.20);
+}
+
+/* Glassmorphism sutil en dark */
+[data-theme="dark"] .card {
+  background: hsl(224 26% 14% / 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid hsl(224 20% 28% / 0.6);
+}
+
+/* ── 2. RESET MÍNIMO ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--c-bg);
+  color: var(--c-text);
+
+  min-height: 100dvh;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  padding: clamp(10px, 2vh, 24px) 12px;
+  transition: background var(--t), color var(--t);
+
+  overflow-x: hidden;
+}
+
+/* ── 3. PANTALLA DE CARGA ────────────────────────────────────── */
+.carga-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--c-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.4s ease;
+}
+.carga-overlay.saliendo { opacity: 0; pointer-events: none; }
+
+.carga-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.carga-icono {
+  font-size: 2.4rem;
+  animation: latido 1s ease-in-out infinite;
+}
+@keyframes latido {
+  0%, 100% { transform: scale(1);    opacity: 1; }
+  50%       { transform: scale(1.15); opacity: 0.7; }
+}
+.carga-barra {
+  width: 160px;
+  height: 4px;
+  background: var(--c-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.carga-progreso {
+  height: 100%;
+  background: var(--btn-op-bg);
+  border-radius: 99px;
+  animation: barraCargando 0.7s ease-in-out forwards;
+}
+@keyframes barraCargando {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+.carga-texto {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ── 4. ACCESIBILIDAD ────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus visible universal — cumple WCAG 2.1 AA */
+:focus-visible {
+  outline: 2.5px solid var(--btn-op-bg);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+/* ── 5. LAYOUT ───────────────────────────────────────────────── */
+.container { width: 100%; max-width: 420px; }
+
+.card {
+  background: var(--c-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-card);
+
+  padding: clamp(12px, 1.8vh, 20px);
+
+  display: flex;
+  flex-direction: column;
+
+  gap: clamp(6px, 1.2vh, 12px);
+
+  max-height: calc(100dvh - 20px);
+}
+
+/* ── 6. ENCABEZADO ───────────────────────────────────────────── */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-titulo {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.card-titulo h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.version-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--btn-op-bg);
+  background: hsl(221 78% 56% / 0.12);
+  padding: 2px 7px;
+  border-radius: 99px;
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+.card-acciones { display: flex; gap: 4px; }
+
+.btn-icono {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--c-text-muted);
+  transition: background var(--t), color var(--t);
+}
+.btn-icono:hover { background: var(--btn-dig-bg); color: var(--c-text); }
+
+/* ── 7. PANTALLA ─────────────────────────────────────────────── */
+.pantalla {
+  background: linear-gradient(135deg, var(--c-pantalla), var(--c-pantalla2));
+  border-radius: 16px;
+  padding: 12px 16px 14px;
+  position: relative;
+  min-height: clamp(90px, 14vh, 110px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2px;
+  transition: background var(--t);
+  overflow: hidden;
+}
+.pantalla::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  border-radius: inherit;
+  transition: background 0.25s ease;
+  pointer-events: none;
+}
+.pantalla.pantalla-error::before {
+  background: hsl(0 70% 50% / 0.07);
+}
+
+/* Indicadores superiores (M, paréntesis) */
+.pantalla-indicadores {
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.indicador {
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 5px;
+  letter-spacing: 0.05em;
+  user-select: none;
+}
+.mem-badge {
+  background: hsl(221 78% 56% / 0.14);
+  color: var(--btn-op-bg);
+}
+.paren-badge {
+  background: hsl(215 55% 55% / 0.14);
+  color: var(--btn-sci-text);
+  font-size: 0.72rem;
+  letter-spacing: -0.02em;
+}
+
+/* Expresión (línea pequeña) */
+.pantalla-expresion {
+  font-size: 0.82rem;
+  color: var(--c-text-muted);
+  text-align: right;
+  min-height: 1.1rem;
+  word-break: break-all;
+  transition: color var(--t);
+}
+
+/* Valor principal */
+.pantalla-valor {
+  font-size: 2.4rem;
+  font-weight: 300;
+  line-height: 1.1;
+  text-align: right;
+  letter-spacing: -0.02em;
+  color: var(--c-text);
+  word-break: break-all;
+  transition: color var(--t), font-size 0.1s;
+}
+.pantalla-error .pantalla-valor { color: var(--c-error); }
+
+/* Animaciones de pantalla */
+@keyframes sacudir {
+  0%, 100% { transform: translateX(0); }
+  18%       { transform: translateX(-9px); }
+  36%       { transform: translateX(8px); }
+  54%       { transform: translateX(-6px); }
+  72%       { transform: translateX(5px); }
+}
+.pantalla.anim-error { animation: sacudir 0.4s ease-in-out; }
+
+@keyframes aparecer {
+  from { transform: translateY(6px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+.resultado-animar { animation: aparecer 0.2s ease-out; }
+
+/* Botón copiar en pantalla */
+.btn-copiar-display {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  opacity: 0.45;
+  border-radius: 6px;
+  transition: opacity var(--t), background var(--t);
+}
+.btn-copiar-display:hover { opacity: 1; background: var(--btn-dig-bg); }
+
+/* ── 8. SELECTOR DE MODO ─────────────────────────────────────── */
+.modo-selector {
+  display: flex;
+  background: var(--modo-bg);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  transition: background var(--t);
+}
+.modo-btn {
+  flex: 1;
+  padding: 7px;
+  border: none;
+  border-radius: 9px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  color: var(--c-text-muted);
+  transition: background var(--t), color var(--t), box-shadow var(--t);
+}
+.modo-btn.activo {
+  background: var(--modo-activo-bg);
+  color: var(--c-text);
+  box-shadow: var(--modo-activo-shadow);
+}
+.modo-btn:hover:not(.activo) { color: var(--c-text); }
+
+/* ── 9. TECLAS COMPARTIDAS ───────────────────────────────────── */
+.teclado {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+}
+
+/* Reset de botón */
+.teclado button {
+  border: none;
+  cursor: pointer;
+  border-radius: var(--r-btn);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  transition:
+    background var(--t),
+    color var(--t),
+    transform 0.1s ease,
+    box-shadow var(--t);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ripple effect on press */
+.teclado button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: hsl(0 0% 100% / 0);
+  border-radius: inherit;
+  transition: background 0.1s ease;
+}
+.teclado button:active::after {
+  background: hsl(0 0% 100% / 0.12);
+}
+
+/* Focus visible on buttons */
+.teclado button:focus-visible {
+  outline: 2.5px solid var(--btn-op-bg);
+  outline-offset: 2px;
+}
+
+/* Hover y active globales */
+.teclado button:hover  { transform: translateY(-1px); }
+.teclado button:active { transform: translateY(1px) scale(0.96); }
+
+/* Animación de tecla presionada (por JS) */
+@keyframes presionado {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.90); }
+  100% { transform: scale(1); }
+}
+.anim-presionado { animation: presionado 0.12s ease-out; }
+
+/* ── 10. TECLADO CIENTÍFICO ──────────────────────────────────── */
+.teclado-cientifico { margin-bottom: 2px; }
+
+/* CRÍTICO: display:grid no aplica cuando hidden */
+.teclado-cientifico[hidden] { display: none; }
+
+.teclado-cientifico button {
+  height: var(--h-btn-sci);
+  background: var(--btn-sci-bg);
+  color: var(--btn-sci-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--r-sm);
+}
+.teclado-cientifico button:hover { background: var(--btn-sci-hover); }
+
+/* Operador en científico (xʸ) */
+.teclado-cientifico .btn-op-cient {
+  background: var(--btn-sci-op-bg);
+  color: var(--btn-sci-op-text);
+}
+.teclado-cientifico .btn-op-cient:hover { background: var(--btn-op-hover); }
+
+/* Borrar en científico */
+.teclado-cientifico .btn-borrar-cient {
+  background: var(--btn-fn-bg);
+  color: var(--btn-fn-text);
+}
+.teclado-cientifico .btn-borrar-cient:hover { background: var(--btn-fn-hover); }
+
+/* ── 11. FILA DE MEMORIA ─────────────────────────────────────── */
+.teclado-memoria button {
+  height: var(--h-btn-mem);
+  background: var(--btn-mem-bg);
+  color: var(--btn-mem-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--r-sm);
+  letter-spacing: 0.03em;
+}
+.teclado-memoria button:hover { background: var(--btn-mem-hover); }
+
+/* ── 12. TECLADO BÁSICO ──────────────────────────────────────── */
+.teclado-basico button {
+  height: var(--h-btn);
+  background: var(--btn-dig-bg);
+  color: var(--btn-dig-text);
+  font-size: 1.15rem;
+}
+.teclado-basico button:hover  { background: var(--btn-dig-hover); }
+.teclado-basico button:active { background: var(--btn-dig-active); }
+
+/* Funciones: C, ←, % */
+.teclado-basico .btn-funcion {
+  background: var(--btn-fn-bg);
+  color: var(--btn-fn-text);
+  font-size: 1rem;
+}
+.teclado-basico .btn-funcion:hover  { background: var(--btn-fn-hover); }
+.teclado-basico .btn-funcion:active { background: var(--btn-fn-bg); filter: brightness(0.88); }
+
+/* Operadores: ÷ × − + */
+.teclado-basico .btn-operador {
+  background: var(--btn-op-bg);
+  color: var(--btn-op-text);
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+.teclado-basico .btn-operador:hover  { background: var(--btn-op-hover); }
+.teclado-basico .btn-operador:active { background: var(--btn-op-active); }
+
+/* Operador activo (pulsado en la expresión) */
+.teclado-basico .btn-operador.op-activo {
+  background: var(--btn-op-active);
+  box-shadow: inset 0 0 0 2px hsl(221 78% 30% / 0.4);
+}
+
+/* Botón 0 (ocupa 2 columnas) */
+.teclado-basico .btn-cero {
+  grid-column: span 2;
+  text-align: left;
+  padding-left: 22px;
+}
+
+/* Igual */
+.teclado-basico .btn-igual {
+  background: var(--btn-op-bg);
+  color: var(--btn-op-text);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+.teclado-basico .btn-igual:hover  { background: var(--btn-op-hover); }
+.teclado-basico .btn-igual:active { background: var(--btn-op-active); }
+
+/* ── 13. HISTORIAL ───────────────────────────────────────────── */
+.historial {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 4px;
+}
+.historial-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.historial-titulo {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-text-muted);
+}
+.btn-texto {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.72rem;
+  color: var(--c-text-muted);
+  padding: 2px 6px;
+  border-radius: 5px;
+  transition: color var(--t), background var(--t);
+}
+.btn-texto:hover { color: var(--c-error); background: hsl(0 70% 50% / 0.07); }
+
+#historialLista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  max-height: clamp(80px, 18vh, 160px);
+
+  overflow-y: auto;
+  padding-right: 2px;
+}
+/* Scroll custom */
+#historialLista::-webkit-scrollbar { width: 4px; }
+#historialLista::-webkit-scrollbar-track { background: transparent; }
+#historialLista::-webkit-scrollbar-thumb {
+  background: var(--c-border);
+  border-radius: 99px;
+}
+
+@keyframes deslizarEntrada {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.historial-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 6px;
+  background: var(--hist-item-bg);
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background var(--t), transform var(--t);
+}
+.historial-item:hover { background: var(--hist-item-hover); transform: translateX(2px); }
+.historial-item:active { transform: translateX(0) scale(0.98); }
+.historial-item.nuevo  { animation: deslizarEntrada 0.25s ease-out; }
+
+.hist-expresion {
+  font-size: 0.78rem;
+  color: var(--c-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hist-resultado {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--c-text);
+  white-space: nowrap;
+}
+.hist-hora {
+  font-size: 0.68rem;
+  color: var(--c-text-dim);
+  white-space: nowrap;
+}
+
+.historial-vacio {
+  font-size: 0.8rem;
+  color: var(--c-text-dim);
+  text-align: center;
+  padding: 6px 0;
+}
+
+/* ── 14. TOAST ───────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--c-card);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  padding: 8px 18px;
+  font-size: 0.82rem;
+  box-shadow: 0 4px 20px hsl(0 0% 0% / 0.15);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 500;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast.toast-error  { border-color: var(--c-error); color: var(--c-error); }
+.toast.toast-exito  { border-color: hsl(150 60% 40%); color: hsl(150 60% 35%); }
+.toast.toast-mem    { border-color: var(--btn-mem-text); color: var(--btn-mem-text); }
+[data-theme="dark"] .toast.toast-exito { color: hsl(150 60% 58%); }
+[data-theme="dark"] .toast.toast-mem   { color: var(--btn-mem-text); }
+
+/* ── 15. MODAL ───────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: hsl(0 0% 0% / 0.48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 800;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  backdrop-filter: blur(3px);
+  padding: 16px;
+}
+
+.modal-overlay[hidden] {
+  display: none !important;
+}
+
+.modal-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal {
+  background: var(--c-card);
+  border-radius: var(--r-card);
+  width: min(400px, 100%);
+  max-height: 85dvh;
+  overflow-y: auto;
+  padding: 28px 28px 24px;
+  box-shadow: 0 20px 60px hsl(0 0% 0% / 0.3);
+  transform: scale(0.94) translateY(10px);
+  transition: transform 0.25s ease;
+  border: 1px solid var(--c-border);
+}
+
+.modal-overlay.visible .modal {
+  transform: scale(1) translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.modal-header h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.modal-version-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--btn-op-bg);
+  background: hsl(221 78% 56% / 0.12);
+  padding: 2px 6px;
+  border-radius: 99px;
+  margin-top: 3px;
+  display: inline-block;
+}
+
+.modal-cerrar {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--c-text-muted);
+  padding: 2px 6px;
+  border-radius: 6px;
+  line-height: 1;
+  transition: color var(--t), background var(--t);
+}
+
+.modal-cerrar:hover {
+  color: var(--c-error);
+  background: hsl(0 70% 50% / 0.08);
+}
+
+.modal-cuerpo p {
+  font-size: 0.88rem;
+  color: var(--c-text-muted);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+.modal-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.modal-lista li {
+  font-size: 0.82rem;
+  color: var(--c-text);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--hist-item-bg);
+  border-radius: 8px;
+}
+
+.modal-lista li::before {
+  content: "✓";
+  color: var(--btn-op-bg);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.modal-footer-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-github-modal {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  background: var(--btn-dig-bg);
+  color: var(--c-text);
+  border-radius: var(--r-sm);
+  text-decoration: none;
+  font-size: 0.83rem;
+  font-weight: 600;
+  transition: background var(--t), transform var(--t);
+  border: 1px solid var(--c-border);
+}
+
+.btn-github-modal:hover {
+  background: var(--btn-dig-hover);
+  transform: translateY(-1px);
+}
+
+/* ── 16. FOOTER HINT ─────────────────────────────────────────── */
+.atajo-hint {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.68rem;
+  color: var(--c-text-dim);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ocultar cuando la pantalla es baja */
+@media (max-height: 800px) {
+  .atajo-hint {
+    display: none;
+  }
+}
+.atajo-hint kbd {
+  font-family: inherit;
+  font-size: 0.65rem;
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+
+/* ── 17. MÓVIL ───────────────────────────────────────────────── */
+@media (max-width: 440px) {
+  body { padding: 16px 12px 70px; }
+
+  .card { padding: 16px; gap: 10px; }
+
+  :root {
+    --h-btn:     56px;
+    --h-btn-sci: 40px;
+    --h-btn-mem: 32px;
+    --gap:       8px;
+  }
+  .pantalla-valor { font-size: 2rem; }
+
+  .atajo-hint { display: none; }
+}
+
+@media (max-width: 340px) {
+  :root {
+    --h-btn:     50px;
+    --h-btn-sci: 36px;
+    --r-btn:     11px;
+  }
+  .pantalla-valor { font-size: 1.75rem; }
+  .teclado-basico button { font-size: 1rem; }
+}
+
+/* Reduce motion para accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

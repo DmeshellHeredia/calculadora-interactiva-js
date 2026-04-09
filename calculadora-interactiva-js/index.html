@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Calculadora científica interactiva con parser de expresiones, modo oscuro, historial persistente y funciones de memoria." />
+  <title>Calculadora Interactiva v2.0</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ══ PANTALLA DE CARGA ════════════════════════════════════════ -->
+  <div class="carga-overlay" id="cargaOverlay" aria-hidden="true">
+    <div class="carga-contenido">
+      <div class="carga-icono" aria-hidden="true">⌗</div>
+      <div class="carga-barra" role="progressbar" aria-label="Cargando">
+        <div class="carga-progreso"></div>
+      </div>
+      <p class="carga-texto">Calculadora v2.0</p>
+    </div>
+  </div>
+
+  <!-- ══ REGIÓN ACCESIBLE PARA LECTORES DE PANTALLA ═════════════ -->
+  <div id="anuncioSR" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- ══ CONTENIDO PRINCIPAL ════════════════════════════════════ -->
+  <main class="container">
+    <div class="card" id="appCard">
+
+      <!-- ── Encabezado ─────────────────────────────────────────── -->
+      <div class="card-header">
+        <div class="card-titulo">
+          <h1>Calculadora</h1>
+          <span class="version-badge" aria-label="Versión 2 punto 0">v2.0</span>
+        </div>
+        <div class="card-acciones">
+          <button id="sonidoBtn" class="btn-icono"
+                  title="Activar / desactivar sonido"
+                  aria-label="Sonido desactivado" aria-pressed="false">
+            <span aria-hidden="true">🔇</span>
+          </button>
+          <button id="sobreBtn" class="btn-icono"
+                  title="Acerca del proyecto"
+                  aria-label="Abrir información del proyecto">
+            <span aria-hidden="true">ℹ️</span>
+          </button>
+          <button id="temaBtn" class="btn-icono"
+                  title="Cambiar modo claro / oscuro"
+                  aria-label="Cambiar a modo oscuro">
+            <span id="temaIcono" aria-hidden="true">🌙</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Pantalla ────────────────────────────────────────────── -->
+      <div class="pantalla" id="pantalla"
+           role="region" aria-label="Pantalla de la calculadora">
+
+        <div class="pantalla-indicadores" aria-hidden="true">
+          <span class="indicador mem-badge"   id="indicadorMemoria" hidden>M</span>
+          <span class="indicador paren-badge" id="indicadorParen"   hidden></span>
+        </div>
+
+        <div class="pantalla-expresion" id="pantallExpresion"
+             aria-label="Expresión en curso"
+             aria-live="polite" aria-atomic="true"></div>
+
+        <div class="pantalla-valor" id="pantallaValor"
+             aria-label="Valor actual"
+             aria-live="assertive" aria-atomic="true">0</div>
+
+        <button id="copiarBtn" class="btn-copiar-display" hidden
+                title="Copiar resultado"
+                aria-label="Copiar resultado al portapapeles">
+          <span aria-hidden="true">📋</span>
+        </button>
+      </div>
+
+      <!-- ── Selector de modo Básica / Científica ───────────────── -->
+      <div class="modo-selector" role="group"
+           aria-label="Seleccionar modo de calculadora">
+        <button class="modo-btn activo" data-modo="basica"
+                aria-pressed="true">Básica</button>
+        <button class="modo-btn" data-modo="cientifica"
+                aria-pressed="false">Científica</button>
+      </div>
+
+      <!-- ── Teclado científico (oculto en modo Básica) ─────────── -->
+      <div class="teclado teclado-cientifico" id="tecladoCientifico" hidden
+           aria-label="Funciones científicas">
+
+        <!-- Utilidades: paréntesis, signo, ANS -->
+        <button data-accion="paren-a"  aria-label="Abrir paréntesis">(</button>
+        <button data-accion="paren-c"  aria-label="Cerrar paréntesis">)</button>
+        <button data-accion="signo"    aria-label="Cambiar signo">±</button>
+        <button data-accion="ans"      aria-label="Insertar último resultado" title="ANS: último resultado">ANS</button>
+
+        <!-- Trigonométricas (en grados) -->
+        <button data-accion="funcion" data-fn="sin"      aria-label="Seno en grados">sin</button>
+        <button data-accion="funcion" data-fn="cos"      aria-label="Coseno en grados">cos</button>
+        <button data-accion="funcion" data-fn="tan"      aria-label="Tangente en grados">tan</button>
+        <button data-accion="funcion" data-fn="sqrt"     aria-label="Raíz cuadrada">√x</button>
+
+        <!-- Logarítmicas y potencias -->
+        <button data-accion="funcion" data-fn="log"      aria-label="Logaritmo base 10">log</button>
+        <button data-accion="funcion" data-fn="ln"       aria-label="Logaritmo natural">ln</button>
+        <button data-accion="funcion" data-fn="cuadrado" aria-label="Elevar al cuadrado">x²</button>
+        <button data-accion="operador" data-valor="^" class="btn-op-cient"
+                aria-label="Elevar a la potencia">xʸ</button>
+
+        <!-- Factorial, constantes y retroceso -->
+        <button data-accion="funcion"   data-fn="factorial" aria-label="Factorial">n!</button>
+        <button data-accion="constante" data-valor="pi"     aria-label="Pi (3.14159…)">π</button>
+        <button data-accion="constante" data-valor="euler"  aria-label="Número e (2.71828…)">e</button>
+        <button data-accion="borrar" class="btn-borrar-cient"
+                aria-label="Borrar último carácter">⌫</button>
+      </div>
+
+      <!-- ── Fila de memoria ─────────────────────────────────────── -->
+      <div class="teclado teclado-memoria" aria-label="Funciones de memoria">
+        <button class="btn-memoria" data-accion="mem-c"
+                aria-label="Limpiar memoria (Memory Clear)">MC</button>
+        <button class="btn-memoria" data-accion="mem-r"
+                aria-label="Recuperar memoria (Memory Recall)">MR</button>
+        <button class="btn-memoria" data-accion="mem-+"
+                aria-label="Sumar a memoria (Memory Plus)">M+</button>
+        <button class="btn-memoria" data-accion="mem--"
+                aria-label="Restar de memoria (Memory Minus)">M−</button>
+      </div>
+
+      <!-- ── Teclado numérico ────────────────────────────────────── -->
+      <div class="teclado teclado-basico" aria-label="Teclado numérico">
+
+        <button class="btn-funcion"  data-accion="limpiar"              aria-label="Limpiar todo">C</button>
+        <button class="btn-funcion"  data-accion="borrar"               aria-label="Borrar último carácter">←</button>
+        <button class="btn-funcion"  data-accion="porcentaje"           aria-label="Porcentaje">%</button>
+        <button class="btn-operador" data-accion="operador" data-valor="/"  aria-label="Dividir">÷</button>
+
+        <button data-accion="digito" data-valor="7" aria-label="7">7</button>
+        <button data-accion="digito" data-valor="8" aria-label="8">8</button>
+        <button data-accion="digito" data-valor="9" aria-label="9">9</button>
+        <button class="btn-operador" data-accion="operador" data-valor="*"  aria-label="Multiplicar">×</button>
+
+        <button data-accion="digito" data-valor="4" aria-label="4">4</button>
+        <button data-accion="digito" data-valor="5" aria-label="5">5</button>
+        <button data-accion="digito" data-valor="6" aria-label="6">6</button>
+        <button class="btn-operador" data-accion="operador" data-valor="-"  aria-label="Restar">−</button>
+
+        <button data-accion="digito" data-valor="1" aria-label="1">1</button>
+        <button data-accion="digito" data-valor="2" aria-label="2">2</button>
+        <button data-accion="digito" data-valor="3" aria-label="3">3</button>
+        <button class="btn-operador" data-accion="operador" data-valor="+"  aria-label="Sumar">+</button>
+
+        <button class="btn-cero"  data-accion="digito" data-valor="0" aria-label="0">0</button>
+        <button data-accion="decimal"  aria-label="Punto decimal">.</button>
+        <button class="btn-igual" data-accion="igual" aria-label="Calcular resultado">=</button>
+      </div>
+
+      <!-- ── Historial ───────────────────────────────────────────── -->
+      <section class="historial" aria-label="Historial de operaciones">
+        <div class="historial-header">
+          <span class="historial-titulo" id="histTitulo">Historial</span>
+          <button id="limpiarHistorialBtn" class="btn-texto"
+                  aria-label="Borrar todo el historial">Borrar todo</button>
+        </div>
+        <ul id="historialLista"
+            aria-labelledby="histTitulo"
+            aria-live="polite"></ul>
+        <p id="historialVacio" class="historial-vacio">
+          Aún no hay operaciones.
+        </p>
+      </section>
+
+    </div><!-- /.card -->
+  </main>
+
+  <!-- Hint de atajos (solo escritorio) -->
+  <footer class="atajo-hint" aria-hidden="true">
+    <kbd>0–9</kbd> dígitos &nbsp;·&nbsp;
+    <kbd>+ − * / ^</kbd> operadores &nbsp;·&nbsp;
+    <kbd>( )</kbd> paréntesis &nbsp;·&nbsp;
+    <kbd>Enter</kbd> igual &nbsp;·&nbsp;
+    <kbd>Esc</kbd> limpiar &nbsp;·&nbsp;
+    <kbd>⌫</kbd> borrar
+  </footer>
+
+  <!-- ══ MODAL "ACERCA DE" ════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modalOverlay" hidden
+       role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="modalTitulo">Calculadora Interactiva</h2>
+          <span class="modal-version-badge">v2.0</span>
+        </div>
+        <button class="modal-cerrar" id="modalCerrar"
+                aria-label="Cerrar modal">×</button>
+      </div>
+      <div class="modal-cuerpo">
+        <p>
+          Proyecto desarrollado con <strong>HTML, CSS y JavaScript puro</strong>.
+          Demuestra buenas prácticas de arquitectura, accesibilidad y calidad de código.
+        </p>
+        <ul class="modal-lista">
+          <li>Parser de expresiones — algoritmo Shunting-Yard (precedencia real)</li>
+          <li>Funciones científicas: sin, cos, tan, √, log, ln, x², n!</li>
+          <li>Memoria: MC, MR, M+, M−</li>
+          <li>Historial persistente con marcas de tiempo (localStorage)</li>
+          <li>Modo oscuro / claro guardado entre sesiones</li>
+          <li>Accesibilidad WCAG 2.1: ARIA, teclado, lector de pantalla</li>
+          <li>Retroalimentación sonora opcional (Web Audio API)</li>
+          <li>Diseño responsivo móvil / escritorio</li>
+        </ul>
+        <div class="modal-footer-btns">
+          <a href="https://github.com/DmeshellHeredia"
+             target="_blank" rel="noopener noreferrer"
+             class="btn-github-modal"
+             aria-label="Ver código fuente en GitHub (nueva pestaña)">
+            <svg width="15" height="15" viewBox="0 0 16 16"
+                 fill="currentColor" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15
+                -.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51
+                -1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12
+                0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82
+                2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95
+                .29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            Ver en GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
