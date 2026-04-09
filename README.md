@@ -91,3 +91,7 @@ PWA (offline support)
 
 Dmeshell Heredia
 🔗 https://github.com/DmeshellHeredia
+
+📄 License
+
+MIT License
