@@ -34,8 +34,6 @@ Aplicación web de calculadora científica construida con **JavaScript puro**, e
 
 ## 🧠 Core Concepts
 
-Este proyecto destaca por la implementación manual de:
-
 ### 🔹 Parser matemático
 - Tokenización
 - Conversión infijo → RPN
@@ -45,7 +43,7 @@ Este proyecto destaca por la implementación manual de:
 - Estado centralizado sin frameworks
 - Control de entrada, tokens y memoria
 
-### 🔹 Arquitectura modular (sin frameworks)
+### 🔹 Arquitectura modular
 - Separación lógica/UI/eventos
 - Delegación de eventos eficiente
 - Render reactivo manual
@@ -53,45 +51,62 @@ Este proyecto destaca por la implementación manual de:
 ---
 
 ## 🗂️ Estructura del proyecto
-
-```bash
 .
 ├── index.html
 ├── styles.css
 └── script.js
-⌨️ Keyboard Shortcuts
-Key	Action
-0–9	Input digits
-+ − * / ^	Operators
-( )	Parentheses
-Enter	Calculate
-Esc	Clear
-Backspace	Delete
-🛠️ Tech Stack
-HTML5
-CSS3
-Vanilla JavaScript
-Web Audio API
-LocalStorage / SessionStorage
-🎯 Objetivo
+
+## ⌨️ Keyboard Shortcuts
+
+| Key         | Action        |
+|------------|--------------|
+| 0–9        | Input digits |
+| + − * / ^  | Operators    |
+| ( )        | Parentheses  |
+| Enter      | Calculate    |
+| Esc        | Clear        |
+| Backspace  | Delete       |
+
+---
+
+## 🛠️ Tech Stack
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Web Audio API
+- LocalStorage / SessionStorage
+
+---
+
+## 🎯 Objetivo
 
 Proyecto diseñado para demostrar:
 
-Implementación de algoritmos en frontend
-Manejo de estado sin frameworks
-Buenas prácticas en UX/UI
-Código escalable y mantenible en JS puro
-📈 Posibles mejoras
-Modularización ES Modules
-Tests unitarios
-Soporte para radianes
-Historial exportable
-PWA (offline support)
-👤 Autor
+- Implementación de algoritmos en frontend
+- Manejo de estado sin frameworks
+- Buenas prácticas en UX/UI
+- Código escalable y mantenible en JS puro
 
-Dmeshell Heredia
+---
+
+## 📈 Posibles mejoras
+
+- Modularización con ES Modules
+- Tests unitarios (Jest / Vitest)
+- Soporte para radianes
+- Historial exportable
+- PWA (offline support)
+
+---
+
+## 👤 Autor
+
+**Dmeshell Heredia**  
 🔗 https://github.com/DmeshellHeredia
 
-📄 License
+---
+
+## 📄 License
 
 MIT License
