@@ -102,7 +102,7 @@ Proyecto diseñado para demostrar:
 
 ## 👤 Autor
 
-**Dmeshell Heredia**  
+**Michael Heredia**  
 🔗 https://github.com/DmeshellHeredia
 
 ---
