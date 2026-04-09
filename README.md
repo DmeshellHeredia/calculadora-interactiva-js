@@ -51,10 +51,14 @@ Aplicación web de calculadora científica construida con **JavaScript puro**, e
 ---
 
 ## 🗂️ Estructura del proyecto
+```
 .
 ├── index.html
 ├── styles.css
 └── script.js
+```
+
+---
 
 ## ⌨️ Keyboard Shortcuts
 
